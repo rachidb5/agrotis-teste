@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { FormContainer, ContainerForm, DateCol, Space } from "./styles";
 import {
   AppBar,
@@ -36,6 +36,8 @@ function Form() {
     setLaboratorio,
     values,
     setValues,
+    dateVerify,
+    setDateVerify
   } = useContext(Context);
 
   const { vertical, horizontal, open } = snack;
@@ -171,7 +173,7 @@ function Form() {
                   shrink: true,
                 }}
                 onChange={handleFinalDate("dataFinal")}
-                error={validate && values.dataFinal.length === 0}
+                error={validate && values.dataFinal.length === 0 }
                 helperText={
                   validate && values.dataFinal.length === 0
                     ? "Preencha a data final"

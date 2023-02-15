@@ -18,6 +18,7 @@ function Provider({ children }) {
       dataInicial: "",
       dataFinal: "",
     });
+    const [dateVerify, setDateVerify] = useState(false)
   
    
     const context = {
@@ -34,7 +35,9 @@ function Provider({ children }) {
       laboratorio,
       setLaboratorio,
       values,
-      setValues
+      setValues,
+      dateVerify,
+      setDateVerify
     };
     return (
         <Context.Provider value={ context }>
