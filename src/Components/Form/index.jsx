@@ -84,8 +84,8 @@ function Form() {
       values.nome === "" ||
       values.dataInicial === "" ||
       values.dataFinal === "" ||
-      laboratorio.id === 0 ||
-      propriedade.id === 0
+      laboratorio.id === undefined ||
+      propriedade.id === undefined
     ) {
       setSuccess(false);
     } else {
