@@ -3,6 +3,8 @@ import Context from './Context';
 
 function Provider({ children }) {
     const [propriedade, setPropriedade] = useState({});
+    const [dateMessage, setDateMessage] = useState('Preencha a data final')
+    const [errorMessage, setErrorMessage] = useState('Preencha os campos obrigatórios.')
     const [validate, setValidate] = useState(false);
     const [snack, setSnack] = useState({
       open: false,
@@ -37,7 +39,11 @@ function Provider({ children }) {
       values,
       setValues,
       dateVerify,
-      setDateVerify
+      setDateVerify,
+      dateMessage,
+      setDateMessage,
+      errorMessage,
+      setErrorMessage
     };
     return (
         <Context.Provider value={ context }>

@@ -36,8 +36,10 @@ function Form() {
     setLaboratorio,
     values,
     setValues,
-    dateVerify,
-    setDateVerify
+    dateMessage,
+    setDateMessage,
+    errorMessage,
+    setErrorMessage
   } = useContext(Context);
 
   const { vertical, horizontal, open } = snack;
@@ -88,9 +90,13 @@ function Form() {
       propriedade.id === undefined
     ) {
       setSuccess(false);
+    } else if (new Date(values.dataFinal) < new Date(values.dataInicial)) {
+      setSuccess(false);
+      setDateMessage("A data final deve ser posterior a data inicial");
+      setErrorMessage("Insira datas válidas")
     } else {
       setSuccess(true);
-      setValidate(false)
+      setValidate(false);
       console.log({
         ...values,
         cnpj,
@@ -102,10 +108,10 @@ function Form() {
         nome: "",
         dataInicial: "",
         dataFinal: "",
-      })
-      setCnpj('')
-      setLaboratorio({})
-      setPropriedade({})
+      });
+      setCnpj("");
+      setLaboratorio({});
+      setPropriedade({});
     }
     setSnack({ ...snack, open: true });
   };
@@ -137,6 +143,7 @@ function Form() {
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <TextField
+              color="success"
               id="standard-basic"
               label="Nome *"
               variant="standard"
@@ -155,6 +162,7 @@ function Form() {
           <Grid item xs={6}>
             <DateCol>
               <TextField
+                            color="success"
                 id="standard-basic"
                 label="Data Inicial *"
                 variant="standard"
@@ -174,7 +182,8 @@ function Form() {
               />
               <Space></Space>
               <TextField
-              value={values.dataFinal}
+                            color="success"
+                value={values.dataFinal}
                 id="standard-basic"
                 label="Data Final *"
                 variant="standard"
@@ -184,10 +193,16 @@ function Form() {
                   shrink: true,
                 }}
                 onChange={handleFinalDate("dataFinal")}
-                error={validate && values.dataFinal.length === 0 }
+                error={
+                  validate &&
+                  (values.dataFinal.length === 0 ||
+                    new Date(values.dataFinal) < new Date(values.dataInicial))
+                }
                 helperText={
-                  validate && values.dataFinal.length === 0
-                    ? "Preencha a data final"
+                  validate &&
+                  (values.dataFinal.length === 0 ||
+                    new Date(values.dataFinal) < new Date(values.dataInicial))
+                    ? dateMessage
                     : ""
                 }
               />
@@ -198,6 +213,7 @@ function Form() {
               <InputLabel id="prop">Propriedade *</InputLabel>
               <Select
                 labelId="prop"
+                color="success"
                 defaultValue=""
                 id="standard-basic"
                 label="Propriedade *"
@@ -230,6 +246,7 @@ function Form() {
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="labs"
+                color="success"
                 label="Laboratório *"
                 variant="standard"
                 defaultValue=""
@@ -254,6 +271,7 @@ function Form() {
           <Grid item xs={12}>
             <TextField
               id="standard-basic"
+              color="success"
               label="Observações"
               variant="standard"
               fullWidth
@@ -289,7 +307,7 @@ function Form() {
             sx={{ width: "100%" }}
             variant="filled"
           >
-            Preencha os campos obrigatórios.
+            {errorMessage}
           </Alert>
         )}
       </Snackbar>
