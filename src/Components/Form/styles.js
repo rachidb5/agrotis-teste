@@ -24,3 +24,6 @@ export const DateCol = styled.div`
   justify-content: space-between;
   margin-left:2%;
 `;
+export const Space = styled.div`
+  width: 5%
+`;

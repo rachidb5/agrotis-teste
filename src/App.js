@@ -1,13 +1,16 @@
-import './App.css';
-import Nav from './Components/Nav';
-import Form from './Components/Form';
+import "./App.css";
+import Provider from "./Context/Provider";
+import Nav from "./Components/Nav";
+import Form from "./Components/Form";
 
 function App() {
   return (
-    <div className="App">
-      <Nav />
-      <Form />
-    </div>
+    <Provider>
+      <div className="App">
+        <Nav />
+        <Form />
+      </div>
+    </Provider>
   );
 }
 

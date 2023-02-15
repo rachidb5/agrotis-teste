@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FormContainer, ContainerForm, DateCol } from "./styles";
+import { useState, useContext } from "react";
+import { FormContainer, ContainerForm, DateCol, Space } from "./styles";
 import {
   AppBar,
   Button,
@@ -17,29 +17,29 @@ import {
   Alert,
 } from "@mui/material";
 import { labs, propriedades } from "../../Data/mock";
+import Context from "../../Context/Context";
 
 function Form() {
   const barColor = "#00796B";
-  const [propriedade, setPropriedade] = useState({});
-  const [snack, setSnack] = useState({
-    open: false,
-    vertical: "bottom",
-    horizontal: "center",
-  });
-  const [success, setSuccess] = useState(false);
-  const [cnpj, setCnpj] = useState("");
-  const [laboratorio, setLaboratorio] = useState({
-    id: 0,
-    nome: "",
-  });
-  const [values, setValues] = useState({
-    observacoes: "",
-    nome: "",
-    dataInicial: "",
-    dataFinal: "",
-  });
+  const {
+    propriedade,
+    setPropriedade,
+    validate,
+    setValidate,
+    snack,
+    setSnack,
+    success,
+    setSuccess,
+    cnpj,
+    setCnpj,
+    laboratorio,
+    setLaboratorio,
+    values,
+    setValues,
+  } = useContext(Context);
 
   const { vertical, horizontal, open } = snack;
+
   const handleObs = (observacoes) => (event) => {
     setValues({ ...values, [observacoes]: event.target.value });
   };
@@ -77,6 +77,7 @@ function Form() {
   };
 
   const save = () => {
+    setValidate(true);
     if (
       values.nome === "" ||
       values.dataInicial === "" ||
@@ -85,14 +86,15 @@ function Form() {
       propriedade.id === 0
     ) {
       setSuccess(false);
+    } else {
+      setSuccess(true);
+      setValidate(false)
       console.log({
         ...values,
         cnpj,
         infosPropriedade: { ...propriedade },
         laboratorio,
       });
-    } else {
-      setSuccess(true);
     }
     setSnack({ ...snack, open: true });
   };
@@ -115,7 +117,7 @@ function Form() {
           >
             Teste front-end
           </Typography>
-          <Button sx={{ color: "#fff" }} onClick={() => save()}>
+          <Button type="submit" sx={{ color: "#fff" }} onClick={() => save()}>
             Salvar
           </Button>
         </Toolbar>
@@ -130,8 +132,13 @@ function Form() {
               fullWidth
               inputProps={{ maxLength: 40 }}
               value={values.nome}
-              helperText={`${values.nome.length}/${40}`}
+              helperText={
+                validate && values.nome.length === 0
+                  ? "Preencha o campo nome"
+                  : `${values.nome.length}/${40}`
+              }
               onChange={handleName("nome")}
+              error={validate && values.nome.length === 0}
             />
           </Grid>
           <Grid item xs={6}>
@@ -142,23 +149,34 @@ function Form() {
                 variant="standard"
                 fullWidth
                 type="datetime-local"
-                sx={{ width: 250 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 onChange={handleInitialDate("dataInicial")}
+                error={validate && values.dataInicial.length === 0}
+                helperText={
+                  validate && values.dataInicial.length === 0
+                    ? "Preencha a data inicial"
+                    : ""
+                }
               />
+              <Space></Space>
               <TextField
                 id="standard-basic"
                 label="Data Final *"
                 variant="standard"
                 fullWidth
                 type="datetime-local"
-                sx={{ width: 250 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 onChange={handleFinalDate("dataFinal")}
+                error={validate && values.dataFinal.length === 0}
+                helperText={
+                  validate && values.dataFinal.length === 0
+                    ? "Preencha a data final"
+                    : ""
+                }
               />
             </DateCol>
           </Grid>
@@ -173,6 +191,7 @@ function Form() {
                 variant="standard"
                 fullWidth
                 onChange={(e) => handlePropriedade(e)}
+                error={validate && propriedade.id === undefined}
               >
                 {propriedades.map((p) => (
                   <MenuItem value={p.id.toString()} key={p.id}>
@@ -180,10 +199,14 @@ function Form() {
                   </MenuItem>
                 ))}
               </Select>
-              <FormHelperText>
-                {cnpj.length > 0 ? "CNPJ: " : ""}
-                {cnpj}
-              </FormHelperText>
+              {validate && propriedade.id === undefined ? (
+                <FormHelperText error>Escolha uma propriedade</FormHelperText>
+              ) : (
+                <FormHelperText>
+                  {cnpj.length > 0 ? "CNPJ: " : ""}
+                  {cnpj}
+                </FormHelperText>
+              )}
             </FormControl>
           </Grid>
           <Grid item xs={6}>
@@ -199,6 +222,7 @@ function Form() {
                 defaultValue=""
                 fullWidth
                 onChange={(e) => handleLab(e)}
+                error={validate && laboratorio.id === undefined}
               >
                 {labs.map((l) => (
                   <MenuItem value={l.id.toString()} key={l.id}>
@@ -206,6 +230,12 @@ function Form() {
                   </MenuItem>
                 ))}
               </Select>
+
+              <FormHelperText error>
+                {validate && laboratorio.id === undefined
+                  ? "Escolha um laboratório"
+                  : ""}
+              </FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={12}>
