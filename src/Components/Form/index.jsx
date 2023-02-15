@@ -210,7 +210,7 @@ function Form() {
           </Grid>
           <Grid item xs={6}>
             <FormControl variant="standard" sx={{ m: 1, minWidth: "100%" }}>
-              <InputLabel id="prop">Propriedade *</InputLabel>
+              <InputLabel id="prop" color="success">Propriedade *</InputLabel>
               <Select
                 labelId="prop"
                 color="success"
@@ -240,7 +240,7 @@ function Form() {
           </Grid>
           <Grid item xs={6}>
             <FormControl variant="standard" sx={{ m: 1, minWidth: "100%" }}>
-              <InputLabel id="demo-simple-select-standard-label">
+              <InputLabel id="demo-simple-select-standard-label" color="success">
                 Laboratório *
               </InputLabel>
               <Select
