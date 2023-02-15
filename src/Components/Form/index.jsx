@@ -97,6 +97,15 @@ function Form() {
         infosPropriedade: { ...propriedade },
         laboratorio,
       });
+      setValues({
+        observacoes: "",
+        nome: "",
+        dataInicial: "",
+        dataFinal: "",
+      })
+      setCnpj('')
+      setLaboratorio({})
+      setPropriedade({})
     }
     setSnack({ ...snack, open: true });
   };
@@ -154,6 +163,7 @@ function Form() {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                value={values.dataInicial}
                 onChange={handleInitialDate("dataInicial")}
                 error={validate && values.dataInicial.length === 0}
                 helperText={
@@ -164,6 +174,7 @@ function Form() {
               />
               <Space></Space>
               <TextField
+              value={values.dataFinal}
                 id="standard-basic"
                 label="Data Final *"
                 variant="standard"
