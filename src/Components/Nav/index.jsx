@@ -1,5 +1,5 @@
 import Logo from '../../Assets/Logo.png';
-import { Header, ImgLogo, Title } from './styles';
+import { Header, ImgLogo } from './styles';
 
 function Nav() {
   return (

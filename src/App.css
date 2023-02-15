@@ -3,9 +3,30 @@
   background-color: #F3F2F1;
   height: 100vh;
 }
-
-.MuiFormHelperText-root{
+.MuiSelect-select{
+  text-align: start !important;
+}
+#standard-basic-helper-text{
   margin-left: auto;
   text-align: right !important;
 }
 
+.css-1kkpk3h-MuiButtonBase-root-MuiButton-root:hover{
+  background-color:#00A98E !important;
+  border-radius: 0%;
+}
+
+.css-l4u8b9-MuiInputBase-root-MuiInput-root:after, .css-1rcvvn7-MuiInputBase-root-MuiInput-root:after, .css-imxj5-MuiInputBase-root-MuiInput-root-MuiSelect-root:after{
+  border-color: #00796B !important;
+}
+.Mui-focused{
+  color: #00796B !important;
+}
+
+
+textarea:hover{
+  border-color: #00796B !important;
+}
+.MuiOutlinedInput-root:hover{
+  border-color: #00796B !important;
+}

@@ -17,3 +17,10 @@ export const TitleForm = styled.h1`
   font-style: normal;
   font-weight: 500;
 `;
+
+export const DateCol = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left:2%;
+`;
